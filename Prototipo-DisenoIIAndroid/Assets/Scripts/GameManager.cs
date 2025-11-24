@@ -29,21 +29,26 @@ public class GameManager : MonoBehaviour
     public void ObjetoCorrecto(GameObject obj)
     {
         Destroy(obj);
-        Debug.Log("✔ Correcto +20");
+        ScoreManager.instance.Sumar(20);
         SpawnNuevoObjeto();
     }
 
     public void ObjetoIncorrecto(GameObject obj)
     {
         Destroy(obj);
-        Debug.Log("✖ Incorrecto");
+        ScoreManager.instance.Restar(10);
         SpawnNuevoObjeto();
     }
 
     public void ObjetoPerdido(GameObject obj)
     {
         Destroy(obj);
-        Debug.Log("Objeto Perdido");
+        ScoreManager.instance.Restar(5);
         SpawnNuevoObjeto();
+    }
+    public void FinDelJuego()
+    {
+        Debug.Log("⏳ Juego terminado");
+        UIManager.instance.MostrarPantallaFinal(ScoreManager.instance.puntos);
     }
 }
