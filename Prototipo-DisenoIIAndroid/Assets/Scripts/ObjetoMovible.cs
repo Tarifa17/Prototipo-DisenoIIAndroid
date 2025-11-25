@@ -1,22 +1,32 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class AccelerometerMovement : MonoBehaviour
 {
     public float speed = 5f;
+    private Rigidbody2D rb;
 
-    void Update()
+    void Start()
     {
-        // Tomar acelerómetro
-        Vector3 acc = Input.acceleration;
+        rb = GetComponent<Rigidbody2D>();
 
-        // Si el juego está en landscape, hay que remapear
-        float moveX = acc.x;
-        float moveY = -acc.y;  // se invierte para que “inclinación arriba” mueva hacia arriba
+        // Activar compensación de sensores
+        InputSystem.EnableDevice(Accelerometer.current);
+    }
 
-        // Movimiento
-        Vector2 movement = new Vector2(moveX, moveY) * speed;
+    void FixedUpdate()
+    {
+        if (Accelerometer.current != null)
+        {
+            // Leer acelerómetro desde el nuevo Input System
+            Vector3 acc = Accelerometer.current.acceleration.ReadValue();
 
-        // Aplicar el movimiento en 2D
-        transform.Translate(movement * Time.deltaTime);
+            // Remapear según orientación
+            float moveX = acc.x;
+            float moveY = -acc.y;
+
+            Vector2 movement = new Vector2(moveX, moveY) * speed;
+            rb.linearVelocity = movement;
+        }
     }
 }
