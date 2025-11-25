@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class AccelerometerMovement : MonoBehaviour
 {
-    public float speed = 5f;
+    public float speed = 10f;
     private Rigidbody2D rb;
 
     void Start()
